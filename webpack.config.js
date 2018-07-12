@@ -4,15 +4,14 @@ var webpack = require('webpack');
 const path = require('path');
 
 var isProd = process.env.NODE_ENV === 'production';
-var cssDev = ['style-loader', 'css-loader', 'sass-loader'];
+var cssDev = ['style-loader', 'css-loader', 'less-loader'];
 var cssProd =  ExtractTextPlugin.extract(
   {
     fallback: 'style-loader',
-    use: ['css-loader', 'sass-loader'],
+    use: ['css-loader', 'less-loader'],
     publicPath: '/dist'
   }
 );
-
 
 const htmlPlugin = 
   new HtmlWebPackPlugin({
@@ -29,7 +28,10 @@ const htmlPlugin =
 );
 
 module.exports = {
-  entry: './src/index.js',
+  entry: [
+    './src/index.js'
+  ]
+    ,
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.bundle.js'
@@ -37,8 +39,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/, 
-        use: cssProd
+        test: /\.less$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+            loader: "css-loader"
+        }, {
+            loader: "less-loader",
+            options: {
+                javascriptEnabled: true
+            }
+        }]
       },
       {
         test: /\.js$/,

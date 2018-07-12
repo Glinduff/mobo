@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import Date from './Date'
+import "./index.less";
 
 export default class App extends Component{
   render(){
     return(
-      <div>Hello Reacwwsst!</div>
+      <Date />
     )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("index"));
+ReactDOM.render(<App />, document.getElementById("root"));
