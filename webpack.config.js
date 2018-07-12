@@ -1,31 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var webpack = require('webpack');
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
+const webpack = require('webpack');
 const path = require('path');
 
-var isProd = process.env.NODE_ENV === 'production';
-var cssDev = ['style-loader', 'css-loader', 'less-loader'];
-var cssProd =  ExtractTextPlugin.extract(
-  {
-    fallback: 'style-loader',
-    use: ['css-loader', 'less-loader'],
-    publicPath: '/dist'
-  }
-);
-
-const htmlPlugin = 
-  new HtmlWebPackPlugin({
-    template: "./src/index.html",
-    filename: "./index.html"
-  },
-  new ExtractTextPlugin({
-    filename: 'app.css',
-    disable: !isProd,
-    allChunks: false
-  }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
-);
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: [
@@ -34,22 +15,49 @@ module.exports = {
     ,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index.bundle.js'
+    filename: 'index.bundle.js',
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true // set to true if you want JS source maps
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   module: {
     rules: [
       {
         test: /\.less$/,
-        use: [{
-          loader: "style-loader"
-        }, {
-            loader: "css-loader"
-        }, {
-            loader: "less-loader",
+        use:  [
+          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
             options: {
-                javascriptEnabled: true
+              publicPath: '/dist'
             }
-        }]
+          },
+          
+          'css-loader',
+          {
+            loader: 'less-loader?sourceMap',
+            options: {
+              javascriptEnabled: true,
+            },
+          },
+        ]
       },
       {
         test: /\.js$/,
@@ -69,5 +77,16 @@ module.exports = {
     port: 8081,
     historyApiFallback: true
   },
-  plugins: [htmlPlugin],
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: "./src/index.html",
+      filename: "./index.html"
+    }),
+    new MiniCssExtractPlugin({
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  ],
 };
