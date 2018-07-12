@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import Date from './Date'
+import App from './app/App'
+import {Login} from './auth/Login'
 import "./index.less";
 
-export default class App extends Component{
+export default class Root extends Component{
   render(){
     return(
-      <Date />
+      <Login />
     )
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Root />, document.getElementById("root"));
