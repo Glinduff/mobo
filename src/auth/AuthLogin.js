@@ -6,7 +6,6 @@ const FormItem = Form.Item
 
 class LoginForm extends Component {
   render() {
-    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="app-login">

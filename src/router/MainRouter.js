@@ -9,8 +9,9 @@ import { PublicRoute } from "./PublicRouter";
 import App from '../app/App'
 import AuthLogin from '../auth/AuthLogin'
 import { AuthRestore } from '../auth/AuthRestore'
+import  { connect } from 'react-redux'
 
-export default class MainRouter extends Component{
+class MainRouter extends Component{
 
   state = {
     authed: false,
@@ -30,3 +31,5 @@ export default class MainRouter extends Component{
     )
   }
 }
+
+export default connect()(MainRouter)
