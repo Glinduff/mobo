@@ -7,7 +7,7 @@ import {
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRouter";
 import App from '../app/App'
-import { AuthLogin } from '../auth/AuthLogin'
+import AuthLogin from '../auth/AuthLogin'
 import { AuthRestore } from '../auth/AuthRestore'
 
 export default class MainRouter extends Component{

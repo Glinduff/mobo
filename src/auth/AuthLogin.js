@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import { Form, Icon, Button, Input, Checkbox } from "antd";
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 const FormItem = Form.Item
 
 class LoginForm extends Component {
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="app-login">
@@ -57,4 +59,5 @@ class LoginForm extends Component {
   }
 }
 
-export const AuthLogin = Form.create()(LoginForm)
+const AuthLogin = Form.create()(LoginForm)
+export default connect()(AuthLogin)
