@@ -35,4 +35,4 @@ class RestoreForm extends Component {
   }
 }
 
-export const Restore = Form.create()(RestoreForm)
+export const AuthRestore = Form.create()(RestoreForm)

@@ -57,4 +57,4 @@ class LoginForm extends Component {
   }
 }
 
-export const Login = Form.create()(LoginForm)
+export const AuthLogin = Form.create()(LoginForm)
