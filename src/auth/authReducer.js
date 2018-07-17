@@ -2,7 +2,7 @@ import { LOGIN, LOGOUT } from './AuthActions'
  
 
 const initialState = {
-  isAuthenticated: false
+  isAuthenticated: true
 }
 
 export default function auth(state = initialState , action){
@@ -15,7 +15,7 @@ export default function auth(state = initialState , action){
         isAuthenticated: action.isAuthenticated
       }
 
-    case 'LOGOUT':
+    case LOGOUT:
       return {
         ...state,
         isAuthenticated: action.isAuthenticated

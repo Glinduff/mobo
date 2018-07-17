@@ -5,9 +5,10 @@ import { Layout } from 'antd';
 
 export default class App extends Component {
   render() {
+    console.log(this.props)
     return (
       <Layout className="main-layout" prefixCls="app-layout">
-        <AppSideBar />
+        <AppSideBar location={this.props.location.pathname}/>
         <AppContent />
       </Layout>
     )

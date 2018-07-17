@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { 
   Route,
   Switch,
+  Redirect,
   BrowserRouter as Router
  } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
