@@ -1,12 +1,25 @@
-export default function auth(state = {}, action){
+import { LOGIN, LOGOUT } from './AuthActions'
+ 
+
+const initialState = {
+  isAuthenticated: false
+}
+
+export default function auth(state = initialState , action){
 
   switch(action.type){
 
-    case 'LOGIN':
-      return action.IsAuth
+    case LOGIN:
+      return {
+        ...state,
+        isAuthenticated: action.isAuthenticated
+      }
 
     case 'LOGOUT':
-      return action.IsAuth
+      return {
+        ...state,
+        isAuthenticated: action.isAuthenticated
+      }
 
     default:
       return state

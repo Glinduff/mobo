@@ -32,7 +32,7 @@ module.exports = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true // set to true if you want JS source maps
+        sourceMap: true
       }),
       new OptimizeCSSAssetsPlugin({})
     ]
@@ -49,7 +49,6 @@ module.exports = {
               publicPath: '/dist'
             }
           },
-          
           'css-loader',
           {
             loader: 'less-loader?sourceMap',

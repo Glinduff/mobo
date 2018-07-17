@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Avatar } from 'antd';
+import { Layout, Menu, Avatar, Button } from 'antd';
+import { connect } from 'react-redux'
+import { handleLogout } from '../auth/AuthActions'
 
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-export default class SideBar extends Component {
+class SideBar extends Component {
+
+  handleLogout = () => {
+    const { dispatch } = this.props
+    dispatch(handleLogout(false))
+  }
   render() {
     return (
       <Sider 
@@ -14,6 +21,9 @@ export default class SideBar extends Component {
         style={{ background: '#fff' }}>
         <div>
           <Avatar size="large" icon="user" />
+          <Button type="primary" htmlType="submit" onClick={this.handleLogout}>
+            Log out
+          </Button>
         </div>
         <Menu
           theme="light"
@@ -37,3 +47,5 @@ export default class SideBar extends Component {
     )
   }
 }
+
+export default connect()(SideBar)

@@ -14,17 +14,17 @@ import  { connect } from 'react-redux'
 class MainRouter extends Component{
 
   state = {
-    authed: false,
     loading: true
   }
 
   render(){
+    console.log(this.props.authed)
     return (
       <Router>
         <Switch>
-          <PublicRoute authed={this.state.authed} path='/auth' component={AuthLogin} />
-          <PublicRoute authed={this.state.authed} path='/restore' component={AuthRestore} />
-          <PrivateRoute authed={this.state.authed} path="/" component={App} />
+          <PublicRoute authed={this.props.authed} path='/auth' component={AuthLogin} />
+          <PublicRoute authed={this.props.authed} path='/restore' component={AuthRestore} />
+          <PrivateRoute authed={this.props.authed} path="/" component={App} />
           <Route render={() => <h1>Oops! Esta ruta no existe</h1>} />
         </Switch>
       </Router>
@@ -32,4 +32,10 @@ class MainRouter extends Component{
   }
 }
 
-export default connect()(MainRouter)
+function mapStateToProps(state){
+  return {
+    authed : state.auth.isAuthenticated
+  }
+}
+
+export default connect(mapStateToProps)(MainRouter)

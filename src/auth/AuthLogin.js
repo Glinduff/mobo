@@ -2,17 +2,25 @@ import React, { Component } from 'react'
 import { Form, Icon, Button, Input, Checkbox } from "antd";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { handleLogin } from './AuthActions'
 const FormItem = Form.Item
 
 class LoginForm extends Component {
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { dispatch } = this.props
+    dispatch(handleLogin(true))
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="app-login">
-        <Form prefixCls="app-form" className="app-login-form">
+        <Form prefixCls="app-form" className="app-login-form" onSubmit={this.handleSubmit}>
           <FormItem prefixCls="app-form">
           {getFieldDecorator('email', {
-            rules: [
+            rules: [ 
               { type: 'email', message: 'Ingrese un E-mail válido'}, 
               {required: true, message: 'Por favor ingrese su E-mail',}
             ]
