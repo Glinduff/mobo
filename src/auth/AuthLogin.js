@@ -67,4 +67,5 @@ class LoginForm extends Component {
 }
 
 const AuthLogin = Form.create()(LoginForm)
+
 export default connect()(AuthLogin)
