@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { Layout } from 'antd'
-import { Switch, Route, Redirect } from 'react-router-dom'
-import Planification from '../planification/Planification';
+import { Layout, Icon } from 'antd'
+import { Switch, Route, withRouter } from 'react-router-dom'
+import { routes } from './routes'
 
 const { Content } = Layout;
-const routes = [
-  {
-    path: '/planificacion',
-    component: Planification
-  }
-]
 
-export default class AppContent extends Component {
+class AppContent extends Component {
+
+  componentDidMount(){
+    const { history, location } = this.props
+    location.pathname === '/' &&  history.push('/planificacion')
+  }
+
   render() {
     return (
       <Layout prefixCls="app-layout">
@@ -25,10 +25,16 @@ export default class AppContent extends Component {
                 component={route.component}
               />
             ))}
-            <Redirect from="/" push to="/planificacion" />
-          </ Switch>
+            <Route render={() => 
+              <div>
+                <Icon type="frown-o"/>
+                <h1>Oops! Esta ruta no existe</h1>
+              </div>
+            } />
+          </Switch>
         </Content>
       </Layout>
     )
   }
 }
+export default withRouter(AppContent)
