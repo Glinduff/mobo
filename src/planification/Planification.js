@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from "react-redux";
 
-export default class Planification extends Component {
+class Planification extends Component {
+
   render() {
     return (
       <div>
@@ -9,3 +11,5 @@ export default class Planification extends Component {
     )
   }
 }
+
+export default connect()(Planification)
