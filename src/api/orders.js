@@ -1,6 +1,15 @@
-import { ref } from "../config/config";
+import { ref } from "../config/constants";
 
-export function getOrders(){
+export function getAsOrders(){
+  return ref.child('/orders')
+    .once('value')
+    .then(snap => {
+      return filterAssignOrders(snap.val())
+    })
+}
+
+
+export function getNasOrders(){
   return ref.child('/orders')
     .once('value')
     .then(snap => {
@@ -8,14 +17,15 @@ export function getOrders(){
     })
 }
 
-function filterAssignOrders(orders){
+
+export function filterAssignOrders(orders){
   return Object
   .keys(orders)
   .filter(elem => orders[elem].assignment)
   .map(elem => orders[elem])
 }
 
-function filterNotAssignOrders(orders){
+export function filterNotAssignOrders(orders){
   return Object
   .keys(orders)
   .filter(elem => !orders[elem].assignment)

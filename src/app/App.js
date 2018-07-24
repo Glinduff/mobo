@@ -4,14 +4,14 @@ import AppContent from './Content'
 import { connect } from 'react-redux'
 import { Layout } from 'antd';
 
-import { getOrders } from "../api/orders";
+import { reciveInitialOrders, addOrderListener } from "../orders/OrderActions";
 
 class App extends Component {
 
   componentDidMount(){
     const { dispatch } = this.props
-    getOrders()
-    .then(orders => console.log(orders))
+    dispatch(reciveInitialOrders())
+    const listener = addOrderListener(dispatch);
   }
   
   render() {
@@ -24,8 +24,8 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state){
+/* function mapStateToProps(state){
 
-}
+} */
 
 export default connect()(App)
