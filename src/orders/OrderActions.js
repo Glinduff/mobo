@@ -4,7 +4,7 @@ import { ref } from '../config/constants'
 export const RECIVE_ASSIGNED_ORDERS = 'RECIVE_ASSIGNED_ORDERS'
 export const RECIVE_NOT_ASSIGNED_ORDERS = 'RECIVE_NOT_ASSIGNED_ORDERS'
 export const ADD_ORDER = 'ADD_ORDER'
-
+export const INIT_ORDER_WATCH = 'INIT_ORDER_WATCH'
 
 function handleAssignedOrders(assignedOrders){
   return {
@@ -27,34 +27,69 @@ function addOrder (order) {
   }
 }
 
+
+export function watchOrders(watch) {
+  return {
+    type: INIT_ORDER_WATCH,
+    watch
+  }
+}
+
 export function reviceNotAssignedOrders(){
   return (dispatch) => {
-    getNasOrders()
+    return getNasOrders()
       .then(orders => {
-        dispatch(handleNotAssignedOrders(orders))
+        return dispatch(handleNotAssignedOrders(orders))
+        
       })
   }
 }
 
 export function reviceAssignedOrders(){
   return (dispatch) => {
-    getAsOrders()
+    return getAsOrders()
       .then(orders => {
-        dispatch(handleAssignedOrders(orders))
+        return dispatch(handleAssignedOrders(orders))
       })
   }
 }
 
 export function reciveInitialOrders(){
   return (dispatch) => {
-    dispatch(reviceAssignedOrders())
-  /*   dispatch(reviceNotAssignedOrders()) */
+    return dispatch(reviceAssignedOrders()), dispatch(reviceNotAssignedOrders())
   }
 }
 
-export function addOrderListener (dispatch) {
-  ref.child('/orders').on('child_added', snap => {
-    console.log(snap.val())
-    dispatch(addOrder(snap.val()))
-  })
+export function initWatchOrders () {
+  return (dispatch, getState) => {
+    ref.child('/orders').on('child_added', snap => {
+      console.log('init1')
+      if (getState().orders.watch === true) {
+        dispatch(addOrder(snap.val()))
+      }
+    })
+    ref.child('/orders').on('child_changed', snap => {
+      console.log('init2')
+      if (getState().orders.watch === true) {
+        console.log(snap.val())
+      }
+    })
+    ref.child('/orders').on('child_removed', snap => {
+      console.log('init3')
+      if (getState().orders.watch === true) {
+        console.log(snap.val())
+      }
+    })
+
+  }
+}
+
+
+export function endWatchOrders () {
+  return (dispatch, getState) => {
+    dispatch(watchOrders(false))
+    ref.child('/orders').off('child_added')
+    ref.child('/orders').off('child_changed')
+    ref.child('/orders').off('child_removed')
+  }
 }

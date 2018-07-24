@@ -1,13 +1,14 @@
 import { 
   RECIVE_ASSIGNED_ORDERS, 
   RECIVE_NOT_ASSIGNED_ORDERS, 
-  ADD_ORDER
+  ADD_ORDER,
+  INIT_ORDER_WATCH
 } from "./OrderActions";
 
 const initialState = {
   assigned: [],
-  notAssigned: []
-
+  notAssigned: [],
+  watch: false
 }
 
 export default function orders(state=initialState, action){
@@ -27,7 +28,14 @@ export default function orders(state=initialState, action){
       case ADD_ORDER: {
         return {
           ...state,
-          notAssigned: [...state.notAssigned, action.order]
+          notAssigned: state.notAssigned.concat(action.order)
+        }
+      }
+
+      case INIT_ORDER_WATCH: {
+        return {
+          ...state,
+          watch: action.watch
         }
       }
 

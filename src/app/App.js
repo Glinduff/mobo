@@ -4,18 +4,28 @@ import AppContent from './Content'
 import { connect } from 'react-redux'
 import { Layout } from 'antd';
 
-import { reciveInitialOrders, addOrderListener } from "../orders/OrderActions";
+import { reciveInitialOrders, initWatchOrders, watchOrders, endWatchOrders } from "../orders/OrderActions";
 
 class App extends Component {
 
+  state = {
+    loading: true
+  }
+
   componentDidMount(){
     const { dispatch } = this.props
+    dispatch(initWatchOrders())
     dispatch(reciveInitialOrders())
-    const listener = addOrderListener(dispatch);
+      .then(() => dispatch(watchOrders(true), this.setState({loading: false})))
+    }
+
+  componentWillUnmount(){
+    const { dispatch } = this.props
+    dispatch(endWatchOrders())
   }
   
   render() {
-    return (
+    return this.state.loading === true ? <h1>Loading</h1> : (
       <Layout className="main-layout" prefixCls="app-layout">
         <AppSideBar location={this.props.location.pathname}/>
         <AppContent />
