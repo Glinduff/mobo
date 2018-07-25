@@ -4,7 +4,18 @@ import AppContent from './Content'
 import { connect } from 'react-redux'
 import { Layout } from 'antd';
 
-import { reciveInitialOrders, initWatchOrders, watchOrders, endWatchOrders } from "../orders/OrderActions";
+import { 
+  reciveInitialOrders, 
+  initWatchOrders, 
+  watchOrders, 
+  endWatchOrders
+} from "../orders/OrderActions";
+
+import { 
+  reciveDrivers, 
+  initWatchDrivers,
+  watchDrivers 
+} from '../drivers/DriversActions';
 
 class App extends Component {
 
@@ -14,10 +25,18 @@ class App extends Component {
 
   componentDidMount(){
     const { dispatch } = this.props
+    // iniciamos listener de cada lista
     dispatch(initWatchOrders())
-    dispatch(reciveInitialOrders())
-      .then(() => dispatch(watchOrders(true), this.setState({loading: false})))
-    }
+    dispatch(initWatchDrivers())
+
+    // iniciamos los servicios antes de mostrar el UI
+    Promise.all([dispatch(reciveDrivers()), dispatch(reciveInitialOrders())])
+      .then(() => { 
+        dispatch(watchOrders(true)),
+        dispatch(watchDrivers(true)),
+        this.setState({loading: false})
+      })
+  }
 
   componentWillUnmount(){
     const { dispatch } = this.props
@@ -33,9 +52,5 @@ class App extends Component {
     )
   }
 }
-
-/* function mapStateToProps(state){
-
-} */
 
 export default connect()(App)

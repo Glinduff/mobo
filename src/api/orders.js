@@ -1,22 +1,12 @@
 import { ref } from "../config/constants";
 
-export function getAsOrders(){
+export function getOrders(type){
   return ref.child('/orders')
     .once('value')
     .then(snap => {
-      return filterAssignOrders(snap.val())
+      return type === 'assign' ? filterAssignOrders(snap.val()) : filterNotAssignOrders(snap.val())
     })
 }
-
-
-export function getNasOrders(){
-  return ref.child('/orders')
-    .once('value')
-    .then(snap => {
-      return filterNotAssignOrders(snap.val())
-    })
-}
-
 
 export function filterAssignOrders(orders){
   return Object

@@ -1,4 +1,4 @@
-import { getAsOrders, getNasOrders } from "../api/orders";
+import { getAsOrders, getNasOrders, getOrders } from "../api/orders";
 import { ref } from '../config/constants'
 
 export const RECIVE_ASSIGNED_ORDERS = 'RECIVE_ASSIGNED_ORDERS'
@@ -37,7 +37,7 @@ export function watchOrders(watch) {
 
 export function reviceNotAssignedOrders(){
   return (dispatch) => {
-    return getNasOrders()
+    return getOrders()
       .then(orders => {
         return dispatch(handleNotAssignedOrders(orders))
         
@@ -47,7 +47,7 @@ export function reviceNotAssignedOrders(){
 
 export function reviceAssignedOrders(){
   return (dispatch) => {
-    return getAsOrders()
+    return getOrders('assign')
       .then(orders => {
         return dispatch(handleAssignedOrders(orders))
       })
@@ -56,26 +56,26 @@ export function reviceAssignedOrders(){
 
 export function reciveInitialOrders(){
   return (dispatch) => {
-    return dispatch(reviceAssignedOrders()), dispatch(reviceNotAssignedOrders())
+    return Promise.all([dispatch(reviceAssignedOrders()), dispatch(reviceNotAssignedOrders())])
+      .then(orders => { 
+        return orders
+    });
   }
 }
 
 export function initWatchOrders () {
   return (dispatch, getState) => {
     ref.child('/orders').on('child_added', snap => {
-      console.log('init1')
       if (getState().orders.watch === true) {
         dispatch(addOrder(snap.val()))
       }
     })
     ref.child('/orders').on('child_changed', snap => {
-      console.log('init2')
       if (getState().orders.watch === true) {
         console.log(snap.val())
       }
     })
     ref.child('/orders').on('child_removed', snap => {
-      console.log('init3')
       if (getState().orders.watch === true) {
         console.log(snap.val())
       }
