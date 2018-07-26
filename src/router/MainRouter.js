@@ -14,10 +14,6 @@ import  { connect } from 'react-redux'
 
 class MainRouter extends Component{
 
-  state = {
-    loading: true
-  }
-
   render(){
     console.log(this.props.authed)
     return (

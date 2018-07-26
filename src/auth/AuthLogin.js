@@ -3,14 +3,25 @@ import { Form, Icon, Button, Input, Checkbox } from "antd";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin } from './AuthActions'
+import { loginService } from '../api/auth'
 const FormItem = Form.Item
 
 class LoginForm extends Component {
 
+  componentDidMount() {
+
+    // Put the object into storage
+    //localStorage.setItem('testObject', JSON.stringify(testObject));
+    // Retrieve the object from storage
+    //var retrievedObject = localStorage.getItem('testObject');
+
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     const { dispatch } = this.props
-    dispatch(handleLogin(true))
+    /* dispatch(handleLogin(true)) */
+    loginService().then((res) => console.log(res))
   }
 
   render() {

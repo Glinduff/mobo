@@ -25,6 +25,7 @@ class App extends Component {
 
   componentDidMount(){
     const { dispatch } = this.props
+
     // iniciamos listener de cada lista
     dispatch(initWatchOrders())
     dispatch(initWatchDrivers())

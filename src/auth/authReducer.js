@@ -2,7 +2,7 @@ import { LOGIN, LOGOUT } from './AuthActions'
  
 
 const initialState = {
-  isAuthenticated: true
+  isAuthenticated: false
 }
 
 export default function auth(state = initialState , action){
