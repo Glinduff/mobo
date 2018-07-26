@@ -20,8 +20,10 @@ class LoginForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const { dispatch } = this.props
-    /* dispatch(handleLogin(true)) */
-    loginService().then((res) => console.log(res))
+    this.props.form.validateFields((err, {email, password}) => {
+      loginService(email, password)
+        .then((res) => console.log(res))
+    });
   }
 
   render() {
