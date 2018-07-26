@@ -3,17 +3,19 @@ import { Form, Icon, Button, Input, Checkbox } from "antd";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin } from './AuthActions'
-import { loginService } from '../api/auth'
 const FormItem = Form.Item
 
 class LoginForm extends Component {
 
+  constructor(){
+    super()
+    this.state = {
+      loading: false,
+      iconLoading: false,
+    }
+  }
   componentDidMount() {
 
-    // Put the object into storage
-    //localStorage.setItem('testObject', JSON.stringify(testObject));
-    // Retrieve the object from storage
-    //var retrievedObject = localStorage.getItem('testObject');
 
   }
 
@@ -21,8 +23,12 @@ class LoginForm extends Component {
     e.preventDefault()
     const { dispatch } = this.props
     this.props.form.validateFields((err, {email, password}) => {
-      loginService(email, password)
-        .then((res) => console.log(res))
+      if(!err){
+        dispatch(handleLogin(email, password))
+          .then(res => res.status === 'success' ? 
+          (res.setCredentials(email, password),
+          res.dispatchAuth(true)) : null)
+      }
     });
   }
 
@@ -69,7 +75,7 @@ class LoginForm extends Component {
               <Checkbox>Recordar sesión</Checkbox>
             )}
             <Link to="/restore" className="app-login-form-forgot">Olvide mi contraseña</Link>
-            <Button type="primary" htmlType="submit" className="app-login-form-button">
+            <Button type="primary" htmlType="submit" className="app-login-form-button" loading={this.state.loading} onClick={this.enterLoading}>
               Log in
             </Button>
           </FormItem>

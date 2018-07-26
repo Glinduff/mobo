@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { 
   Route,
   Switch,
-  Redirect,
   BrowserRouter as Router
  } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
@@ -11,11 +10,24 @@ import App from '../app/App'
 import AuthLogin from '../auth/AuthLogin'
 import { AuthRestore } from '../auth/AuthRestore'
 import  { connect } from 'react-redux'
+import { getLocalCredentials } from "../config/localStorage";
+import { setAuth, handleLogin } from "../auth/AuthActions";
 
 class MainRouter extends Component{
 
+  componentDidMount(){
+    const { dispatch } = this.props
+
+    getLocalCredentials()
+      .then(res => {
+        res === null ?
+          dispatch(setAuth(false)) :
+          dispatch(handleLogin(res.email, res.password))
+            .then(res => console.log(res) || res.status === 'success' ? (res.dispatchAuth(true)) : null)
+      })
+  }
+
   render(){
-    console.log(this.props.authed)
     return (
       <Router>
         <Switch>

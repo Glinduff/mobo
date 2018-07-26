@@ -1,25 +1,42 @@
+import { loginService } from "../api/auth";
+import { setLocalCredentials, removeLocalCredentials } from "../config/localStorage";
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
-export function login(isAuthenticated) {
+export function setAuth(isAuthenticated) {
   return{
     type: LOGIN,
     isAuthenticated
   }
 }
 
-export function handleLogout(isAuthenticated) {
+export function logout(isAuthenticated) {
   return{
     type: LOGOUT,
     isAuthenticated
   }
 }
 
-
-export function handleLogin() {
+export function handleLogout(val){
   return (dispatch) => {
-    return servicio()
-      .then((user) => dispatch(login(user)))
+    dispatch(logout(val)),
+    removeLocalCredentials()
+  }
+}
+
+
+export function handleLogin(email, password) {
+  return (dispatch) => {
+    return loginService(email, password)
+      .then((res) => {
+          return res.status === 401 ?
+           new Error('Error', 'Error') : 
+           { 
+            status: 'success' , 
+            setCredentials: (email, password) => setLocalCredentials(email, password),
+            dispatchAuth: (val) => dispatch(setAuth(val))
+          }
+      })
   }
 }
