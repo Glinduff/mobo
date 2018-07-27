@@ -1,13 +1,20 @@
-import { LOGIN, LOGOUT } from './AuthActions'
+import { LOGIN, LOGOUT, SET_AUTH_USER } from './AuthActions'
  
 
 const initialState = {
-  isAuthenticated: false
+  isAuthenticated: false,
+  user: {}
 }
 
 export default function auth(state = initialState , action){
 
   switch(action.type){
+
+    case SET_AUTH_USER:
+      return {
+        ...state,
+        user: action.user
+      }
 
     case LOGIN:
       return {
@@ -18,7 +25,7 @@ export default function auth(state = initialState , action){
     case LOGOUT:
       return {
         ...state,
-        isAuthenticated: action.isAuthenticated
+        user: {}
       }
 
     default:

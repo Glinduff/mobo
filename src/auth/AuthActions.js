@@ -1,8 +1,19 @@
 import { loginService } from "../api/auth";
 import { setLocalCredentials, removeLocalCredentials } from "../config/localStorage";
+import { trowNewError } from "../helpers/helpers";
 
+export const SET_AUTH_USER = 'SET_AUTH_USER';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+
+
+export function setAuthUser(user){
+  return {
+    type: SET_AUTH_USER,
+    user
+  }
+}
+
 
 export function setAuth(isAuthenticated) {
   return{
@@ -11,12 +22,14 @@ export function setAuth(isAuthenticated) {
   }
 }
 
+
 export function logout(isAuthenticated) {
   return{
     type: LOGOUT,
     isAuthenticated
   }
 }
+
 
 export function handleLogout(val){
   return (dispatch) => {
@@ -25,18 +38,13 @@ export function handleLogout(val){
   }
 }
 
-
 export function handleLogin(email, password) {
   return (dispatch) => {
     return loginService(email, password)
       .then((res) => {
-          return res.status === 401 ?
-           new Error('Error', 'Error') : 
-           { 
-            status: 'success' , 
-            setCredentials: (email, password) => setLocalCredentials(email, password),
-            dispatchAuth: (val) => dispatch(setAuth(val))
-          }
+        setLocalCredentials(email, password)
+        return dispatch(setAuthUser(res))
       })
+      .catch(() => trowNewError('Usuarios no autorizado'))
   }
 }

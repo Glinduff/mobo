@@ -19,10 +19,6 @@ import {
 
 class App extends Component {
 
-  state = {
-    loading: true
-  }
-
   componentDidMount(){
     const { dispatch } = this.props
 
@@ -45,7 +41,7 @@ class App extends Component {
   }
   
   render() {
-    return this.state.loading === true ? <h1>Loading</h1> : (
+    return (
       <Layout className="main-layout" prefixCls="app-layout">
         <AppSideBar location={this.props.location.pathname}/>
         <AppContent />

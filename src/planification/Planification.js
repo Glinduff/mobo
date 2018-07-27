@@ -8,12 +8,12 @@ class Planification extends Component {
     return (
       <div>
         Planification
-       <ul>
+       {/* <ul>
           {  notAssigned.map((order, index) => (
             <li key={index}>{order.status}</li>
             )) 
           }
-        </ul>
+        </ul> */}
       </div>
     )
   }

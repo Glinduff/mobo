@@ -1,5 +1,6 @@
 import axios from "axios";
 import base64 from "base-64";
+import { trowNewError } from "../helpers/helpers";
 
 const API_PATH = 'http://moov.beenary.cl/platform'
 
@@ -19,5 +20,5 @@ export function loginService(email, password){
       }
     }
   })
-  .catch(error => error.response)
+  .catch(error => error.response.status === 401 && trowNewError('Usuario no autorizado'))
 }

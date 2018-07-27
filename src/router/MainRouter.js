@@ -12,28 +12,55 @@ import { AuthRestore } from '../auth/AuthRestore'
 import  { connect } from 'react-redux'
 import { getLocalCredentials } from "../config/localStorage";
 import { setAuth, handleLogin } from "../auth/AuthActions";
+import { store } from '../index'
 
 class MainRouter extends Component{
+  
+  state = {
+    loading: true,
+    /* authed: false */
+  }
 
   componentDidMount(){
-    const { dispatch } = this.props
+    this.setInitialData()
+  }
 
+  setInitialData = () => {
+    const { dispatch } = this.props
+    console.log('init')
     getLocalCredentials()
-      .then(res => {
+      .then(res => 
         res === null ?
-          dispatch(setAuth(false)) :
-          dispatch(handleLogin(res.email, res.password))
-            .then(res => console.log(res) || res.status === 'success' ? (res.dispatchAuth(true)) : null)
-      })
+        this.setState({loading: false}) :
+         dispatch(handleLogin(res.email, res.password))
+         .then(() => this.setState({loading: false}))
+         .catch(error => console.log(error)))
+  }
+
+  componentDidUpdate(prevProps, nextProps) {
+    const { authed } = this.props
+
+    console.log('prevProps', prevProps)
+    console.log('nextProps', nextProps)
+
+    if(authed){
+      console.log('auth')
+    }
+    else {
+      console.log('no auth')
+    }
   }
 
   render(){
-    return (
+    const { loading } = this.state
+    const { authed } = this.props
+    console.log(loading, authed)
+    return loading === true ? <h1>{ loading && 'true' } { authed ? 'true' : 'false' }</h1> : (
       <Router>
         <Switch>
-          <PublicRoute authed={this.props.authed} path='/auth' component={AuthLogin} />
-          <PublicRoute authed={this.props.authed} path='/restore' component={AuthRestore} />
-          <PrivateRoute authed={this.props.authed} path="/" component={App} />
+          <PublicRoute authed={authed} path='/auth' component={AuthLogin} />
+          <PublicRoute authed={authed} path='/restore' component={AuthRestore} />
+          <PrivateRoute authed={authed} path="/" component={App} />
           <Route render={() => <h1>Oops! Esta ruta no existe</h1>} />
         </Switch>
       </Router>
@@ -43,7 +70,7 @@ class MainRouter extends Component{
 
 function mapStateToProps(state){
   return {
-    authed : state.auth.isAuthenticated
+    authed : !!state.auth.user.id
   }
 }
 

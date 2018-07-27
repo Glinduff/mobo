@@ -25,9 +25,9 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, {email, password}) => {
       if(!err){
         dispatch(handleLogin(email, password))
-          .then(res => res.status === 'success' ? 
-          (res.setCredentials(email, password),
-          res.dispatchAuth(true)) : null)
+          .catch((response) => {
+            console.log(response)
+          })
       }
     });
   }

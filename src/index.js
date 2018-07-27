@@ -8,7 +8,7 @@ import middlewares from './middlewares/index'
 import "./index.less";
 
 
-const store = createStore(reducers, middlewares)
+export const store = createStore(reducers, middlewares)
 
 ReactDOM.render(
   <Provider store={store}>
