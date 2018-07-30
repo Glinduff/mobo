@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var path = require("path");
 
 const devMode = process.env.NODE_ENV === 'production'
-var cssDev = ['style-loader', 'css-loader', 'less-loader'];
+var cssDev = ['style-loader', 'css-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }];
 var cssProd =  ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: ['css-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }],
