@@ -41,9 +41,9 @@ export function handleLogout(val){
 export function handleLogin(email, password) {
   return (dispatch) => {
     return loginService(email, password)
-      .then((res) => {
+      .then(user => {
         setLocalCredentials(email, password)
-        return dispatch(setAuthUser(res))
+        return user
       })
       .catch(() => trowNewError('Usuarios no autorizado'))
   }

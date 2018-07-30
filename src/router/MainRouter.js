@@ -11,8 +11,19 @@ import AuthLogin from '../auth/AuthLogin'
 import { AuthRestore } from '../auth/AuthRestore'
 import  { connect } from 'react-redux'
 import { getLocalCredentials } from "../config/localStorage";
-import { setAuth, handleLogin } from "../auth/AuthActions";
-import { store } from '../index'
+import { handleLogin, setAuthUser } from "../auth/AuthActions";
+import { 
+  reciveInitialOrders, 
+  initWatchOrders, 
+  watchOrders, 
+} from "../orders/OrderActions";
+
+import { 
+  reciveDrivers, 
+  initWatchDrivers,
+  watchDrivers 
+} from '../drivers/DriversActions';
+
 
 class MainRouter extends Component{
   
@@ -33,28 +44,26 @@ class MainRouter extends Component{
         res === null ?
         this.setState({loading: false}) :
          dispatch(handleLogin(res.email, res.password))
-         .then(() => this.setState({loading: false}))
-         .catch(error => console.log(error)))
-  }
-
-  componentDidUpdate(prevProps, nextProps) {
-    const { authed } = this.props
-
-    console.log('prevProps', prevProps)
-    console.log('nextProps', nextProps)
-
-    if(authed){
-      console.log('auth')
-    }
-    else {
-      console.log('no auth')
-    }
+         .then((user) => {
+             // iniciamos listener de cada lista
+            dispatch(initWatchOrders()),
+            dispatch(initWatchDrivers()),
+            // iniciamos los servicios antes de mostrar el UI
+            Promise.all([dispatch(reciveDrivers()), dispatch(reciveInitialOrders())])
+              .then(() => { 
+                dispatch(watchOrders(true)),
+                dispatch(watchDrivers(true)),
+                dispatch(setAuthUser(user)),
+                this.setState({loading: false})
+              })
+          
+        })
+        .catch(error => console.log(error)))
   }
 
   render(){
     const { loading } = this.state
     const { authed } = this.props
-    console.log(loading, authed)
     return loading === true ? <h1>{ loading && 'true' } { authed ? 'true' : 'false' }</h1> : (
       <Router>
         <Switch>

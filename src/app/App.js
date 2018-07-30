@@ -5,36 +5,10 @@ import { connect } from 'react-redux'
 import { Layout } from 'antd';
 
 import { 
-  reciveInitialOrders, 
-  initWatchOrders, 
-  watchOrders, 
   endWatchOrders
 } from "../orders/OrderActions";
 
-import { 
-  reciveDrivers, 
-  initWatchDrivers,
-  watchDrivers 
-} from '../drivers/DriversActions';
-
 class App extends Component {
-
-  componentDidMount(){
-    const { dispatch } = this.props
-
-    // iniciamos listener de cada lista
-    dispatch(initWatchOrders())
-    dispatch(initWatchDrivers())
-
-    // iniciamos los servicios antes de mostrar el UI
-    Promise.all([dispatch(reciveDrivers()), dispatch(reciveInitialOrders())])
-      .then(() => { 
-        dispatch(watchOrders(true)),
-        dispatch(watchDrivers(true)),
-        this.setState({loading: false})
-      })
-  }
-
   componentWillUnmount(){
     const { dispatch } = this.props
     dispatch(endWatchOrders())

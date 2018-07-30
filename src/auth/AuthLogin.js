@@ -2,7 +2,19 @@ import React, { Component } from 'react'
 import { Form, Icon, Button, Input, Checkbox } from "antd";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { handleLogin } from './AuthActions'
+import { handleLogin, setAuthUser } from './AuthActions'
+import { 
+  reciveInitialOrders, 
+  initWatchOrders, 
+  watchOrders, 
+} from "../orders/OrderActions";
+
+import { 
+  reciveDrivers, 
+  initWatchDrivers,
+  watchDrivers 
+} from '../drivers/DriversActions';
+
 const FormItem = Form.Item
 
 class LoginForm extends Component {
@@ -14,10 +26,6 @@ class LoginForm extends Component {
       iconLoading: false,
     }
   }
-  componentDidMount() {
-
-
-  }
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -25,9 +33,21 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, {email, password}) => {
       if(!err){
         dispatch(handleLogin(email, password))
-          .catch((response) => {
-            console.log(response)
-          })
+        .then((user) => {
+          // iniciamos listener de cada lista
+          dispatch(initWatchOrders()),
+          dispatch(initWatchDrivers()),
+          // iniciamos los servicios antes de mostrar el UI
+          Promise.all([dispatch(reciveDrivers()), dispatch(reciveInitialOrders())])
+            .then(() => { 
+              dispatch(watchOrders(true)),
+              dispatch(watchDrivers(true)),
+              dispatch(setAuthUser(user))
+            })
+        })
+        .catch((response) => {
+          console.log(response)
+        })
       }
     });
   }
