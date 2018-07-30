@@ -15,6 +15,8 @@ import {
   watchDrivers 
 } from '../drivers/DriversActions';
 
+import logo from '../images/logo.svg';
+
 const FormItem = Form.Item
 
 class LoginForm extends Component {
@@ -56,6 +58,11 @@ class LoginForm extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="app-login">
+        <div className="app-login-header">
+          <div className="app-login-header-logo">
+            <img src={logo} /> 
+          </div>
+        </div>
         <Form prefixCls="app-form" className="app-login-form" onSubmit={this.handleSubmit}>
           <FormItem prefixCls="app-form">
           {getFieldDecorator('email', {
@@ -87,17 +94,13 @@ class LoginForm extends Component {
             )}
           </FormItem>
 
-          <FormItem>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: false,
-            })(
-              <Checkbox>Recordar sesión</Checkbox>
-            )}
-            <Link to="/restore" className="app-login-form-forgot">Olvide mi contraseña</Link>
-            <Button type="primary" htmlType="submit" className="app-login-form-button" loading={this.state.loading} onClick={this.enterLoading}>
-              Log in
+          <FormItem prefixCls="app-form">
+            <Button type="primary" htmlType="submit" className="app-btn app-btn-primary app-login-form-button" loading={this.state.loading} onClick={this.enterLoading}>
+              Entrar
             </Button>
+          </FormItem>
+          <FormItem prefixCls="app-form" className="app-login-form-forgot">
+            <Link to="/restore">Olvide mi contraseña</Link>
           </FormItem>
         </Form>
       </div>

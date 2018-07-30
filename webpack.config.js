@@ -1,12 +1,17 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+var HtmlWebPackPlugin = require("html-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require('webpack');
+var path = require("path");
 
-const webpack = require('webpack');
-const path = require('path');
+const devMode = process.env.NODE_ENV === 'production'
+var cssDev = ['style-loader', 'css-loader', 'less-loader'];
+var cssProd =  ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', { loader: 'less-loader', options: { javascriptEnabled: true } }],
+        publicPath: '/'
+    });
 
-const devMode = process.env.NODE_ENV !== 'production'
+var cssConfig = devMode ? cssProd : cssDev;
 
 module.exports = {
   entry: [
@@ -17,33 +22,13 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index.bundle.js',
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true
-        }
-      }
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      }),
-      new OptimizeCSSAssetsPlugin({})
-    ]
-  },
   module: {
     rules: [
       {
-        test: /\.less$/,
-        use:  [
-          'style-loader',
-          {
+        test: /\.less$/, 
+        use: cssConfig,
+        /* use:  [
+          devMode ? 'style-loader' : {
             loader: MiniCssExtractPlugin.loader,
             options: {
               publicPath: '/dist'
@@ -56,7 +41,7 @@ module.exports = {
               javascriptEnabled: true,
             },
           },
-        ]
+        ] */
       },
       {
         test: /\.js$/,
@@ -64,6 +49,16 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /\.(png|jp(e*)g|svg)$/,  
+        use: [{
+          loader: 'url-loader',
+          options: { 
+            limit: 8000, // Convert images < 8kb to base64 strings
+            name: 'images/[hash]-[name].[ext]'
+          } 
+        }]
       }
     ]
   },
@@ -73,6 +68,7 @@ module.exports = {
     stats: "errors-only",
     open: false,
     inline: true,
+    hot: true,
     port: 8081,
     historyApiFallback: true
   },
@@ -81,11 +77,12 @@ module.exports = {
       template: "./src/index.html",
       filename: "./index.html"
     }),
-    new MiniCssExtractPlugin({
-      filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin()
+    new ExtractTextPlugin({
+      filename: 'css/app.css',
+      disable: !devMode,
+      allChunks: true
+  }),
+  new webpack.HotModuleReplacementPlugin(),
+  new webpack.NamedModulesPlugin()
   ],
 };
