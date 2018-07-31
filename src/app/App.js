@@ -6,7 +6,7 @@ import { Layout } from 'antd';
 
 import { 
   endWatchOrders
-} from "../orders/OrderActions";
+} from "../order/OrderActions";
 
 class App extends Component {
   componentWillUnmount(){

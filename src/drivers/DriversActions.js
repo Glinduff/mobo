@@ -30,17 +30,17 @@ export function reciveDrivers(){
 export function initWatchDrivers () {
   return (dispatch, getState) => {
     ref.child('/drivers').on('child_added', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().drivers.watch === true) {
         dispatch(addOrder(snap.val()))
       }
     })
     ref.child('/drivers').on('child_changed', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().drivers.watch === true) {
         console.log(snap.val())
       }
     })
     ref.child('/drivers').on('child_removed', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().drivers.watch === true) {
         console.log(snap.val())
       }
     })

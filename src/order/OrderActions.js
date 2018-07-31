@@ -1,4 +1,4 @@
-import { getAsOrders, getNasOrders, getOrders } from "../api/orders";
+import { getOrders } from "../api/orders";
 import { ref } from '../config/constants'
 
 export const RECIVE_ASSIGNED_ORDERS = 'RECIVE_ASSIGNED_ORDERS'
@@ -66,17 +66,17 @@ export function reciveInitialOrders(){
 export function initWatchOrders () {
   return (dispatch, getState) => {
     ref.child('/orders').on('child_added', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().order.watch === true) {
         dispatch(addOrder(snap.val()))
       }
     })
     ref.child('/orders').on('child_changed', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().order.watch === true) {
         console.log(snap.val())
       }
     })
     ref.child('/orders').on('child_removed', snap => {
-      if (getState().orders.watch === true) {
+      if (getState().order.watch === true) {
         console.log(snap.val())
       }
     })

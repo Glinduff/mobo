@@ -12,11 +12,12 @@ import { AuthRestore } from '../auth/AuthRestore'
 import  { connect } from 'react-redux'
 import { getLocalCredentials } from "../config/localStorage";
 import { handleLogin, setAuthUser } from "../auth/AuthActions";
+
 import { 
   reciveInitialOrders, 
   initWatchOrders, 
   watchOrders, 
-} from "../orders/OrderActions";
+} from "../order/OrderActions";
 
 import { 
   reciveDrivers, 
@@ -29,7 +30,6 @@ class MainRouter extends Component{
   
   state = {
     loading: true,
-    /* authed: false */
   }
 
   componentDidMount(){
@@ -38,7 +38,6 @@ class MainRouter extends Component{
 
   setInitialData = () => {
     const { dispatch } = this.props
-    console.log('init')
     getLocalCredentials()
       .then(res => 
         res === null ?
@@ -64,7 +63,7 @@ class MainRouter extends Component{
   render(){
     const { loading } = this.state
     const { authed } = this.props
-    return loading === true ? <h1>{ loading && 'true' } { authed ? 'true' : 'false' }</h1> : (
+    return loading === true ? <h1>Loading...</h1> : (
       <Router>
         <Switch>
           <PublicRoute authed={authed} path='/auth' component={AuthLogin} />

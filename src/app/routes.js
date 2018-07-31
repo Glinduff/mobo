@@ -1,10 +1,10 @@
-import Planification from '../planification/Planification';
+import Assignment from '../assignment/Assignment';
 import Control from '../control/Control';
 
 export const routes = [
   {
-    path: '/planificacion',
-    component: Planification
+    path: '/assignment',
+    component: Assignment
   },
   {
     path: '/control',

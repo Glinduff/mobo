@@ -1,0 +1,26 @@
+.order{
+  &-item{
+    border: 1px solid @gray-6;
+    border-radius: 5px;
+    min-height: 100px;
+    position: relative;
+    padding: 14px;
+    background: @gray-1;
+    cursor: pointer;
+    &-time{
+      position: absolute;
+      right: 14px;
+      top: 14px;
+    }
+    &-user{
+      font-size: 13px;
+    }
+    &-street{
+      display: flex;
+      align-content: center;
+      &-icon{
+        margin-right: 5px; 
+      }
+    }
+  }
+}

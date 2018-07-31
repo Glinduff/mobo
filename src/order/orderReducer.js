@@ -11,7 +11,7 @@ const initialState = {
   watch: false
 }
 
-export default function orders(state=initialState, action){
+export default function order(state=initialState, action){
   switch(action.type){
     case RECIVE_ASSIGNED_ORDERS:
       return {

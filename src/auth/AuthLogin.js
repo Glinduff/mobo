@@ -7,7 +7,7 @@ import {
   reciveInitialOrders, 
   initWatchOrders, 
   watchOrders, 
-} from "../orders/OrderActions";
+} from "../order/OrderActions";
 
 import { 
   reciveDrivers, 
@@ -59,7 +59,8 @@ class LoginForm extends Component {
 
   render() {
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form
+    const {  loading, iconLoading, error} = this.state
 
     return (
       <div className="app-login">
@@ -73,7 +74,7 @@ class LoginForm extends Component {
         </div>
         <Form prefixCls="app-form" className="app-login-form" onSubmit={this.handleSubmit}>
 
-          {this.state.error && <p className="app-login-form-error">El email de usuario y la contraseña no coinciden.</p>}
+          {error && <p className="app-login-form-error">El email de usuario y la contraseña no coinciden.</p>}
 
           <FormItem prefixCls="app-form">
           {getFieldDecorator('email', {
@@ -111,9 +112,8 @@ class LoginForm extends Component {
               htmlType="submit" 
               prefixCls="app-btn" 
               className="app-login-form-button"
-              loading={this.state.loading} 
-              onClick={this.enterLoading}>
-                {this.state.loading ? '' : 'Entrar'} 
+              loading={loading}>
+                {loading ? '' : 'Entrar'} 
             </Button>
           </FormItem>
           <FormItem prefixCls="app-form" className="app-login-form-forgot">

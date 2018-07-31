@@ -9,7 +9,7 @@ class AppContent extends Component {
 
   componentDidMount(){
     const { history, location } = this.props
-    location.pathname === '/' &&  history.push('/planificacion')
+    location.pathname === '/' &&  history.push('/assignment')
   }
 
   render() {

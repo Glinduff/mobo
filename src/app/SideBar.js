@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Avatar, Button, Icon } from 'antd'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogout } from '../auth/AuthActions'
 
@@ -9,8 +9,8 @@ const { Sider } = Layout;
 
 const menuLinks = [
   {
-    name: 'Planificacion',
-    path: '/planificacion',
+    name: 'Assignment',
+    path: '/assignment',
     icon: 'layout'
   },
   {
