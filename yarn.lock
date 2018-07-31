@@ -229,9 +229,9 @@ ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-antd@^3.7.1:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-3.7.1.tgz#e18fee3f54fe1c499cc848223fd3bd581d87ed00"
+antd@^3.7.3:
+  version "3.7.3"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-3.7.3.tgz#4f99b9aa23ab95d7b6ebb7405c25d80a8914f28c"
   dependencies:
     array-tree-filter "^2.0.0"
     babel-runtime "6.x"
@@ -253,7 +253,7 @@ antd@^3.7.1:
     rc-checkbox "~2.1.5"
     rc-collapse "~1.9.0"
     rc-dialog "~7.1.0"
-    rc-drawer "~1.5.9"
+    rc-drawer "~1.6.2"
     rc-dropdown "~2.2.0"
     rc-editor-mention "^1.0.2"
     rc-form "^2.1.0"
@@ -4886,9 +4886,9 @@ rc-dialog@~7.1.0:
     rc-animate "2.x"
     rc-util "^4.4.0"
 
-rc-drawer@~1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/rc-drawer/-/rc-drawer-1.5.9.tgz#e75662b2e27211d1401055fb97280591a7668d2d"
+rc-drawer@~1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/rc-drawer/-/rc-drawer-1.6.2.tgz#588e819406698c26769bddf271e7de6a2bc3b4e7"
   dependencies:
     babel-runtime "6.x"
     classnames "^2.2.5"
@@ -5985,11 +5985,12 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-style-loader@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.14.1.tgz#27b9b6c9822adf8c4748e02a1efae229405d79a5"
+style-loader@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.21.0.tgz#68c52e5eb2afc9ca92b6274be277ee59aea3a852"
   dependencies:
-    loader-utils "^1.0.2"
+    loader-utils "^1.1.0"
+    schema-utils "^0.4.5"
 
 supports-color@^2.0.0:
   version "2.0.0"
@@ -6453,7 +6454,7 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack@^2.3.2:
+webpack@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-2.7.0.tgz#b2a1226804373ffd3d03ea9c6bd525067034f6b1"
   dependencies:
