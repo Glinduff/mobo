@@ -15,7 +15,7 @@ import {
   watchDrivers 
 } from '../drivers/DriversActions';
 
-import logo from '../images/logo.svg';
+import logo from '../../images/logo.svg';
 
 const FormItem = Form.Item
 
@@ -60,7 +60,7 @@ class LoginForm extends Component {
       <div className="app-login">
         <div className="app-login-header">
           <div className="app-login-header-logo">
-            <img src={logo} /> 
+            <img src={logo}  /> 
           </div>
         </div>
         <Form prefixCls="app-form" className="app-login-form" onSubmit={this.handleSubmit}>
