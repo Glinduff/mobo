@@ -3,8 +3,8 @@
     "env",
     "react",
     "stage-2"
-  ],
-  "plugins": [
+  ]
+  /* ,"plugins": [
     [
       "import", {
         "libraryName": "antd",
@@ -12,5 +12,5 @@
         "style": true
       }
     ]
-  ]
+  ] */
 }

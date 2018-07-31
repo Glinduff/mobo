@@ -1,15 +1,33 @@
 .app-login{
   display: flex;
+  flex-direction: column;
   height: 100%;
   align-items: center;
   justify-content: center;
+  &-header{
+    &-logo{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    &-text{
+      font-size: 16px;
+      color: @gray-6;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+  }
   &-form{
-    width: 300px;
+    width: 320px;
     &-button{
       width: 100%;
     }
     &-forgot{
       text-align: center
+    }
+    &-error{
+      color: @error-color;
+      text-align: center;
     }
   }
 }

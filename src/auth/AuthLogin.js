@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Icon, Button, Input, Checkbox } from "antd";
+import { Form, Icon, Button, Input } from "antd";
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleLogin, setAuthUser } from './AuthActions'
@@ -26,6 +26,7 @@ class LoginForm extends Component {
     this.state = {
       loading: false,
       iconLoading: false,
+      error: false
     }
   }
 
@@ -34,6 +35,7 @@ class LoginForm extends Component {
     const { dispatch } = this.props
     this.props.form.validateFields((err, {email, password}) => {
       if(!err){
+        this.setState({loading: true, iconLoading: true, error: false})
         dispatch(handleLogin(email, password))
         .then((user) => {
           // iniciamos listener de cada lista
@@ -48,22 +50,31 @@ class LoginForm extends Component {
             })
         })
         .catch((response) => {
-          console.log(response)
+          this.setState({loading: false, iconLoading: false, error: true})
+
         })
       }
     });
   }
 
   render() {
+
     const { getFieldDecorator } = this.props.form;
+
     return (
       <div className="app-login">
         <div className="app-login-header">
           <div className="app-login-header-logo">
             <img src={logo}  /> 
           </div>
+          <div className="app-login-header-text">
+            <span>Tú sistema de gestión y ordenes <br/> de viajes.</span>
+          </div>
         </div>
         <Form prefixCls="app-form" className="app-login-form" onSubmit={this.handleSubmit}>
+
+          {this.state.error && <p className="app-login-form-error">El email de usuario y la contraseña no coinciden.</p>}
+
           <FormItem prefixCls="app-form">
           {getFieldDecorator('email', {
             rules: [ 
@@ -88,19 +99,25 @@ class LoginForm extends Component {
               <Input 
                 prefixCls="app-input" 
                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}  
-                placeholder="Password"
+                placeholder="Contraseña"
                 type="password"
               />
             )}
           </FormItem>
 
           <FormItem prefixCls="app-form">
-            <Button type="primary" htmlType="submit" className="app-btn app-btn-primary app-login-form-button" loading={this.state.loading} onClick={this.enterLoading}>
-              Entrar
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              prefixCls="app-btn" 
+              className="app-login-form-button"
+              loading={this.state.loading} 
+              onClick={this.enterLoading}>
+                {this.state.loading ? '' : 'Entrar'} 
             </Button>
           </FormItem>
           <FormItem prefixCls="app-form" className="app-login-form-forgot">
-            <Link to="/restore">Olvide mi contraseña</Link>
+            <Link to="/restore">Olvidé mi contraseña</Link>
           </FormItem>
         </Form>
       </div>
