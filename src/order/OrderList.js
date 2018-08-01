@@ -5,7 +5,12 @@ export default class OrderList extends Component {
     const { orders } = this.props
     return (
       <div>
-        {orders.map(order => (<OrderItem {...order} key={order.service_id} />))}
+        {orders.map(({date, orders}) => (
+            <div key={date}>
+              <div>{date}</div>
+              <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} />)) }</div>
+            </div>
+        ))}
       </div>
     )
   }

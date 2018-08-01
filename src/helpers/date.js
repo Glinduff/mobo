@@ -1,12 +1,18 @@
 
   // Months array
   const months_arr = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  // Days array
+  const days_arr= ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
   // Year
   const year = (date) => date.getFullYear();
   // Month
   const month = (date) => months_arr[date.getMonth()];
   // Day
   const day = (date) => date.getDate();
+
+  //Day like string
+  const dayString = (date) => days_arr[date.getDay()];
   // Hours
   const hours = (date) => date.getHours();
   // Minutes
@@ -24,7 +30,7 @@ export function getTime(timestamp){
   return hours(date) + ':' + minutes(date).substr(-2);
 }
 
-export function getDateYMD(timestamp){
+export function getDateMD(timestamp){
   const date = new Date(timestamp*1000);
-  return month(date)+'-'+day(date)+'-'+year(date)
+  return `${dayString(date)} ${day(date)}, ${month(date)}`
 }
