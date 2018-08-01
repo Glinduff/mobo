@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
+import Moment from 'react-moment';
 import locationIcon from '../../images/icons/location.svg';
 
 export default class OrderItem extends Component {
   render() {
     const { service_id, info, status } = this.props
     const { client, datetime, destiny, origin } = info
+    
     return (
       <div className="order-item">
         <div className="order-item-time">
-          { datetime }
+        <Moment format="HH:mm">{datetime*1000}</Moment>
         </div>
         <div className="order-item-rejected"></div>
         <div className="order-item-info">
