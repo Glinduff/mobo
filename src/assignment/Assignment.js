@@ -7,11 +7,7 @@ class Assignment extends Component {
 
   render() {
     const {notAssigned} = this.props
-    return (
-      <div>
-        {<OrderDateList dates={notAssigned} /> }
-      </div>
-    )
+    return ( <OrderDateList dates={notAssigned} /> )
   }j
 }
 

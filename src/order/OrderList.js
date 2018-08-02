@@ -7,7 +7,7 @@ export default class OrderList extends Component {
       <div>
         {orders.map(({date, orders}) => (
             <div key={date}>
-              <div>{date}</div>
+              { orders.length && <div>{date}</div>}
               <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} />)) }</div>
             </div>
         ))}
