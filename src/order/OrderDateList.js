@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import OrderItem from "./OrderItem";
 import { Input, Icon } from "antd";
+
 export default class OrderList extends Component {
 
   state = {
@@ -28,27 +29,24 @@ export default class OrderList extends Component {
 
     return (
       <div className="order-list">
-        <Input 
-          prefixCls="app-input" 
-          value={this.state.search}
-          onChange={this.updateSearch}
-          suffix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}  
-          placeholder="Buscar por ID de orden..."
-          type="text"
-        />
-        <div>
-        {
-          filteredOrdes.map(({date, orders}) => (
-          <div key={date}>
-            { 
-              orders.length ? 
-              <div>{date}</div> : 
-              ''
-            }
-            <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} />)) }</div>
-          </div>
-        ))}
-      </div>
+        <div className="order-list-search" style={{padding: '14px'}}>
+          <Input 
+            prefixCls="app-input" 
+            value={this.state.search}
+            onChange={this.updateSearch}
+            suffix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}  
+            placeholder="Buscar por ID de orden..."
+            type="text"
+          />
+        </div>
+        <div style={{ width: '100%', flex: '1 1 0', overflow: 'auto', padding: '14px'}}>
+          { filteredOrdes.map(({date, orders}) => (
+            <div key={date}>
+              { orders.length ?  <div>{date}</div> : '' }
+              <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} />)) }</div>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }
