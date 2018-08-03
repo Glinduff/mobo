@@ -4,7 +4,9 @@ export function getOrders(type){
   return ref.child('/orders')
     .once('value')
     .then(snap => {
-      return type === 'assign' ? filterAssignOrders(snap.val()) : filterNotAssignOrders(snap.val())
+      return Object
+        .keys(snap.val())
+        .map(elem => snap.val()[elem])
     })
 }
 
