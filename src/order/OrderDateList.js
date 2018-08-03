@@ -16,7 +16,6 @@ export default class OrderList extends Component {
   }
 
   handleFilter = (filter) => {
-    /* this.setState({filter}) */
     this.setState({filter: filter.target.value, search: ''})
   }
 
@@ -42,19 +41,22 @@ export default class OrderList extends Component {
 
     return (
       <div className="order-list">
-        <div className="order-list-search" style={{padding: '14px'}}>
-          <Input 
-            prefixCls="app-input" 
-            value={this.state.search}
-            onChange={this.updateSearch}
-            suffix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}  
-            placeholder="Buscar por ID de orden..."
-            type="text"
-          />
-          <div>
-            <Radio.Group prefixCls="app-radio" value={filter} size={'small'} onChange={this.handleFilter}>
+        <div className="order-list-actions">
+          <div className="order-list-search">
+            <Input 
+              prefixCls="app-input" 
+              value={this.state.search}
+              onChange={this.updateSearch}
+              suffix={<Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />}  
+              placeholder="Buscar por ID de orden..."
+              type="text"
+            />
+          </div>
+          <div className="order-list-filter">
+            <Radio.Group prefixCls="app-radio" className="order-list-filter-group" value={filter} size={'small'} onChange={this.handleFilter}>
               { filterButtons.map(button => (
                 <Radio.Button
+                  className="order-list-filter-group-item"
                   prefixCls="app-radio-button"
                   value={button.code}
                   key={button.code}>
@@ -62,13 +64,15 @@ export default class OrderList extends Component {
                 }</Radio.Button>
               ))}
             </Radio.Group>
-
           </div>
         </div>
-        <div style={{ width: '100%', flex: '1 1 0', overflow: 'auto', padding: '14px'}}>
+        <div className="order-list-container">
           { filteredOrdes.map(({date, orders}) => (
-            <div key={date}>
-              { orders.length ?  <div>{date}</div> : '' }
+            <div className="order-list-group" key={date}>
+              { orders.length ? 
+                <div className="order-group-date">{date}</div> : 
+                '' 
+              }
               <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} />)) }</div>
             </div>
           ))}

@@ -1,14 +1,31 @@
 .order{
-
   &-item{
-    border: 1px solid @gray-5;
+    border: 1px solid @gray-4;
     border-radius: 5px;
-    min-height: 100px;
     position: relative;
     padding: 14px;
     background: @gray-1;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     cursor: pointer;
+    &-rejected{
+      margin-bottom: 10px;
+      position: relative;
+      line-height: 1;
+      font-size: 13px;
+      &-icon{
+        position: absolute;
+        font-size: 20px;
+        color: @error-color;
+      }
+      &-info{
+        margin-left: 30px;
+        line-height: 1.4;
+      }
+      &-title{
+        color: @error-color;
+        font-weight: bolder;
+      }
+    }
     &-time{
       position: absolute;
       right: 14px;
@@ -24,7 +41,18 @@
         margin-right: 5px; 
       }
     }
+    
+    &-active{
+      border-color: @primary-color;
+      background-color: fade(@primary-color, 5%);
+      color: @primary-7;
+    }
+
+    &:hover{
+      background-color: @gray-2;
+    }
   }
+
 
   &-list{
     width: 350px;
@@ -32,5 +60,49 @@
     background-color: @gray-1;
     display: flex;
     flex-direction: column;
+
+    &-actions{
+      padding: 14px
+    }
+
+    &-filter{
+      &-group{
+        &-item{
+          border-radius: 0 !important;
+          margin: 0 5px;
+          &:first-child{
+            margin-left: 0
+          }
+          &:last-child{
+            margin-right: 0
+          }
+        }
+      }
+    }
+
+    &-search + &-filter{
+      margin-top: 7px
+    }
+
+    &-container{
+      width: 100%;
+      flex: 1 1 0;
+      overflow: auto;
+      padding: 14px;
+    }
+    &-group{
+      .order-group-date{
+        color: @gray-6;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+      &:last-child{
+        margin-bottom: 100px;
+      }
+    }
+    &-group + &-group {
+      margin-top: 16px;
+    }
   }
+
 }
