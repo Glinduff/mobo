@@ -1,28 +1,28 @@
 import { getOrders } from "../api/orders";
 import { ref } from '../config/constants'
 
-export const RECIVE_ASSIGNED_ORDERS = 'RECIVE_ASSIGNED_ORDERS'
-export const RECIVE_NOT_ASSIGNED_ORDERS = 'RECIVE_NOT_ASSIGNED_ORDERS'
+export const RECIVE_ORDERS = 'RECIVE_ORDERS'
 export const ADD_ORDER = 'ADD_ORDER'
+export const EDIT_ORDER = 'EDIT_ORDER'
 export const INIT_ORDER_WATCH = 'INIT_ORDER_WATCH'
 
-function handleAssignedOrders(assignedOrders){
+function handleOrders(orders){
   return {
-    type: RECIVE_ASSIGNED_ORDERS,
-    assignedOrders
-  }
-}
-
-function handleNotAssignedOrders(notAssignedOrders){
-  return {
-    type: RECIVE_NOT_ASSIGNED_ORDERS,
-    notAssignedOrders
+    type: RECIVE_ORDERS,
+    orders
   }
 }
 
 function addOrder (order) {
   return {
     type: ADD_ORDER,
+    order
+  }
+}
+
+function editOrder (order) {
+  return {
+    type: EDIT_ORDER,
     order
   }
 }
@@ -35,28 +35,18 @@ export function watchOrders(watch) {
   }
 }
 
-export function reviceNotAssignedOrders(){
-  return (dispatch) => {
-    return getOrders()
-      .then(orders => {
-        return dispatch(handleNotAssignedOrders(orders))
-        
-      })
-  }
-}
-
-export function reviceAssignedOrders(){
+export function reviceOrders(){
   return (dispatch) => {
     return getOrders('assign')
       .then(orders => {
-        return dispatch(handleAssignedOrders(orders))
+        return dispatch(handleOrders(orders))
       })
   }
 }
 
 export function reciveInitialOrders(){
   return (dispatch) => {
-    return Promise.all([dispatch(reviceAssignedOrders()), dispatch(reviceNotAssignedOrders())])
+    return Promise.all([dispatch(reviceOrders())])
       .then(orders => { 
         return orders
     });
@@ -72,7 +62,8 @@ export function initWatchOrders () {
     })
     ref.child('/orders').on('child_changed', snap => {
       if (getState().order.watch === true) {
-        console.log(snap.val())
+        console.log('edit:', snap.val())
+        dispatch(editOrder(snap.val()))
       }
     })
     ref.child('/orders').on('child_removed', snap => {

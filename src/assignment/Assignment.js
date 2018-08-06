@@ -16,10 +16,10 @@ class Assignment extends Component {
 
 
   render() {
-    const {notAssigned} = this.props
+    const {orders} = this.props
     return ( 
       <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row' }}>
-        <OrderDateList dates={notAssigned} />
+        <OrderDateList dates={orders} />
         <div style={{position: 'relative',  height: '100%', width: '100%'}}>
           <div style={{ height: '100%', width: '100%' }}>
             <GoogleMapReact
@@ -36,15 +36,15 @@ class Assignment extends Component {
 
 function mapStateToProps({order}){
   return{
-    assigned : order.assigned,
-    notAssigned : [
-      ...new Set(order.notAssigned
+    orders : [
+      ...new Set(order.list
+          .filter(({status: {event_code}}) =>event_code === 'NAT' || event_code === 'WAT')
           .map(({ info: { datetime } }) => getDateMD(datetime))
         )
-    ].map((date) => (
+    ].map((date) => ( console.log(date) ||
       {
         date,
-        orders: order.notAssigned.filter(({ info: { datetime } }) => getDateMD(datetime) === date)
+        orders: order.list.filter(({ info: { datetime }, status: {event_code}}) => getDateMD(datetime) === date && event_code === 'NAT' || event_code === 'WAT')
       }
     ))
   }

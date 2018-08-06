@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import OrderItem from "./OrderItem";
 import { Input, Icon, Button, Radio } from "antd";
 
+
+const filterButtons = [
+  {name: 'Todos', code: ''},
+  {name: 'Pendientes', code: 'NAT'},
+  {name: 'Esperando', code: 'WAT'},
+]
+
 export default class OrderList extends Component {
 
   state = {
@@ -17,7 +24,7 @@ export default class OrderList extends Component {
 
   handleFilter = (filter) => {
     this.setState({filter: filter.target.value, search: ''})
-  }
+  } 
 
   render() {
     const { dates } = this.props
@@ -32,13 +39,6 @@ export default class OrderList extends Component {
         })
       }
     )) 
-
-    const filterButtons = [
-      {name: 'Todos', code: ''},
-      {name: 'Pendientes', code: 'PEN'},
-      {name: 'Esperando', code: 'WAI'},
-    ]
-
     return (
       <div className="order-list">
         <div className="order-list-actions">
@@ -81,14 +81,3 @@ export default class OrderList extends Component {
     )
   }
 }
-
-/* { filterButtons.map(button => (
-  <Button 
-    prefixCls="app-btn" 
-    className={ filter === button.code ? 'app-btn-active' : ''}
-    size={'small'} 
-    onClick={() => this.handleFilter(button.code)}
-    key={button.code}>
-    {button.name}
-  </Button>
-))} */

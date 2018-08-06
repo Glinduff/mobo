@@ -1,34 +1,35 @@
 import { 
-  RECIVE_ASSIGNED_ORDERS, 
-  RECIVE_NOT_ASSIGNED_ORDERS, 
+  RECIVE_ORDERS, 
   ADD_ORDER,
+  EDIT_ORDER,
   INIT_ORDER_WATCH
 } from "./OrderActions";
 
 const initialState = {
-  assigned: [],
-  notAssigned: [],
+  list: [],
   watch: false
 }
 
 export default function order(state=initialState, action){
   switch(action.type){
-    case RECIVE_ASSIGNED_ORDERS:
+    case RECIVE_ORDERS:
       return {
         ...state,
-        assigned: action.assignedOrders
+        list: action.orders
       }
 
-      case RECIVE_NOT_ASSIGNED_ORDERS:
-      return {
-        ...state,
-        notAssigned: action.notAssignedOrders
-      }
 
       case ADD_ORDER: {
         return {
           ...state,
-          notAssigned: state.notAssigned.concat(action.order)
+          list: state.list.concat(action.order)
+        }
+      }
+
+      case EDIT_ORDER: {
+        return {
+          ...state,
+          list: Object.assign(state.list, state.list.map(order=> order.service_id === action.order.service_id ? action.order : order))
         }
       }
 
