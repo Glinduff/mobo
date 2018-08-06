@@ -3,13 +3,22 @@ import { Icon } from 'antd'
 import Moment from 'react-moment';
 import locationIcon from '../../images/icons/location.svg';
 
+import { getOrder } from "../api/orders";
+
+
 export default class OrderItem extends Component {
+
+  handleOrderClick = (service_id) => {
+    this.props.clickOrder(service_id)
+  }
+
   render() {
+
     const { service_id, info, status: { rejected } } = this.props
-    const { client, datetime, destiny, origin } = info
+    const { client, datetime, origin } = info
     
     return (
-      <div className="order-item">
+      <div className="order-item" onClick={() => this.handleOrderClick(service_id)} >
         <div className="order-item-time">
         <Moment format="HH:mm">{datetime*1000}</Moment>
         </div>

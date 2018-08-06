@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import OrderItem from "./OrderItem";
 export default class OrderList extends Component {
   render() {
+
+    console.log(this.props)
+    
+
     const { orders } = this.props
     return (
       <div>

@@ -1,8 +1,8 @@
 import axios from "axios";
 import base64 from "base-64";
 import { trowNewError } from "../helpers/helpers";
+import { API_PATH } from "../config/constants";
 
-const API_PATH = 'http://moov.beenary.cl/platform'
 
 export function loginService(email, password){
   return axios.get(`${API_PATH}/auth/login`, {

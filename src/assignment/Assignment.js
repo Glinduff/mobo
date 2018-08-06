@@ -14,12 +14,16 @@ class Assignment extends Component {
     zoom: 11
   };
 
+  handleOrderDetail = (service_id) => {
+    console.log(service_id)
+  }
 
   render() {
+    console.log(this.props);
     const {orders} = this.props
     return ( 
       <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row' }}>
-        <OrderDateList dates={orders} />
+        <OrderDateList dates={orders} handleOrderDetail={this.handleOrderDetail}/>
         <div style={{position: 'relative',  height: '100%', width: '100%'}}>
           <div style={{ height: '100%', width: '100%' }}>
             <GoogleMapReact
@@ -41,7 +45,7 @@ function mapStateToProps({order}){
           .filter(({status: {event_code}}) =>event_code === 'NAT' || event_code === 'WAT')
           .map(({ info: { datetime } }) => getDateMD(datetime))
         )
-    ].map((date) => ( console.log(date) ||
+    ].map((date) => (
       {
         date,
         orders: order.list.filter(({ info: { datetime }, status: {event_code}}) => getDateMD(datetime) === date && event_code === 'NAT' || event_code === 'WAT')
