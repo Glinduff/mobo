@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import OrderDateList from "../order/OrderDateList";
 import { getDateMD } from "../helpers/date";
 import GoogleMapReact from 'google-map-react';
+import { getOrder } from "../api/orders";
 
 class Assignment extends Component {
 
@@ -15,7 +16,7 @@ class Assignment extends Component {
   };
 
   handleOrderDetail = (service_id) => {
-    console.log(service_id)
+    return getOrder(service_id).then(res => console.log(res))
   }
 
   render() {

@@ -3,9 +3,6 @@ import { Icon } from 'antd'
 import Moment from 'react-moment';
 import locationIcon from '../../images/icons/location.svg';
 
-import { getOrder } from "../api/orders";
-
-
 export default class OrderItem extends Component {
 
   handleOrderClick = (service_id) => {
