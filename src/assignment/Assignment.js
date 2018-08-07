@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import OrderDateList from "../order/OrderDateList";
 import { getDateMD } from "../helpers/date";
 import GoogleMapReact from 'google-map-react';
-import { getOrder } from "../api/orders";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import OrderDetail from '../order/OrderDetail';
 
 class Assignment extends Component {
 
@@ -15,26 +16,24 @@ class Assignment extends Component {
     zoom: 11
   };
 
-  handleOrderDetail = (service_id) => {
-    return getOrder(service_id).then(res => console.log(res))
-  }
-
   render() {
-    console.log(this.props);
-    const {orders} = this.props
+    const {orders, match} = this.props
     return ( 
-      <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row' }}>
-        <OrderDateList dates={orders} handleOrderDetail={this.handleOrderDetail}/>
-        <div style={{position: 'relative',  height: '100%', width: '100%'}}>
-          <div style={{ height: '100%', width: '100%' }}>
+      <Router>
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'row' }}>
+          <OrderDateList dates={orders} match={match} />
+          <div style={{position: 'relative',  height: '100%', width: '100%'}}>
+            <div style={{ height: '100%', width: '100%' }}>
+            <Route path="/assignment/order/:serviceId&:date" component={OrderDetail} />
             <GoogleMapReact
               bootstrapURLKeys={{ key: 'AIzaSyCGqjpXT0tEtJf6rHnvO0eXZrs4cb2L1_k'}}
               defaultCenter={this.props.center}
               defaultZoom={this.props.zoom}>
             </GoogleMapReact>
+            </div>
           </div>
         </div>
-      </div>
+      </Router>
     )
   }
 }

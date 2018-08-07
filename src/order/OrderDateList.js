@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import OrderItem from "./OrderItem";
 import { Input, Icon, Button, Radio } from "antd";
+import { NavLink } from "react-router-dom";
 
 const filterButtons = [
   {name: 'Todos', code: ''},
@@ -31,7 +32,7 @@ export default class OrderList extends Component {
 
   render() {
     
-    const { dates } = this.props
+    const { dates, match } = this.props
     const { search, filter } = this.state
     
     const filteredOrdes = dates.map(date => (
@@ -77,7 +78,11 @@ export default class OrderList extends Component {
                 <div className="order-group-date">{date}</div> : 
                 '' 
               }
-              <div>{orders.map(order =>(<OrderItem {...order} key={order.service_id} clickOrder={this.handleOrderClick}/>)) }</div>
+              <div>{orders.map(order =>(
+                <NavLink to={`${match.path}/order/${order.service_id}&${order.info.datetime}`} key={order.service_id} >
+                  <OrderItem {...order} key={order.service_id}/>
+                </NavLink>)) 
+              }</div>
             </div>
           ))}
         </div> 
